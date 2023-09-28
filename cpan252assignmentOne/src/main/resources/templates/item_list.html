@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Clothes Store - Item List</title>
+  <!-- Add Bootstrap CSS link here -->
+</head>
+<body>
+<div class="container mt-5">
+  <h1 class="mb-4">Clothes Store - Item List</h1>
+  <table class="table">
+    <thead>
+    <tr>
+      <th>ID</th>
+      <th><a th:href="@{/list(sort='name')}">Name</a></th>
+      <th><a th:href="@{/list(sort='brand')}">Brand</a></th>
+      <th>Year of Creation</th>
+      <th>Price</th>
+    </tr>
+    </thead>
+    <!--
+   <thead>
+   <tr>
+     <th>ID</th>
+     <th>Name</th>
+     <th>Brand</th>
+     <th>Year of Creation</th>
+     <th>Price</th>
+   </tr>
+   </thead>
+   -->
+   <tbody>
+   <tr th:each="item : ${items.content}">
+     <td th:text="${item.id}"></td>
+     <td th:text="${item.name}"></td>
+     <td th:text="${item.brand}"></td>
+     <td th:text="${item.yearOfCreation}"></td>
+     <td th:text="${item.price}"></td>
+   </tr>
+   </tbody>
+ </table>
+
+ <div class="pagination">
+   <nav>
+     <ul class="pagination">
+       <li th:classappend="${items.first} ? disabled">
+         <a th:href="${items.first ? '#' : '/list?page=0&size=' + items.size}">
+           First
+         </a>
+       </li>
+       <li th:classappend="${items.first} ? disabled">
+         <a th:href="${items.first ? '#' : '/list?page=' + (items.number - 1) + '&size=' + items.size}">
+           Previous
+         </a>
+       </li>
+       <li th:classappend="${items.last} ? disabled">
+         <a th:href="${items.last ? '#' : '/list?page=' + (items.number + 1) + '&size=' + items.size}">
+           Next
+         </a>
+       </li>
+       <li th:classappend="${items.last} ? disabled">
+         <a th:href="${items.last ? '#' : '/list?page=' + (items.getTotalPages() - 1) + '&size=' + items.size}">
+           Last
+         </a>
+       </li>
+     </ul>
+   </nav>
+ </div>
+<div>
+  <form th:action="@{/listByBrandAndYear}" method="get">
+    <label for="brand">Select a Brand:</label>
+    <select id="brand" name="brand">
+      <option value="DIOR">DIOR</option>
+      <option value="BALENCIAGA">BALENCIAGA</option>
+      <option value="STONE_ISLAND">STONE_ISLAND</option>
+    </select>
+    <button type="submit">Filter</button>
+  </form>
+</div>
+  </form>
+  <form method="post" th:action="@{deleteAllItems}">
+    <button class="btn btn-danger mt-5">Delete All Items</button>
+  </form>
+<form method="post" th:action="@{/adminPage}">
+  <button class="btn btn-danger mt-5">Go to admin page</button>
+</form>
+</div>
+</body>
+</html>
